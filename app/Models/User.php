@@ -2,29 +2,41 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Tabla asociada al modelo.
+     *
+     * @var string
+     */
+    protected $table = 'usuarios'; // Asegúrate de que esto coincida con el nombre de tu tabla de usuarios
+
+    /**
+     * Los atributos que se pueden asignar de forma masiva.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
+        'apellido',
         'email',
         'password',
+        'telefono',
+        'pais',
+        'ciudad_nacimiento',
+        'fecha_nacimiento',
+        'rol',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atributos que deben estar ocultos para la serialización.
      *
      * @var array<int, string>
      */
@@ -34,15 +46,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Los atributos que deben ser convertidos a tipos nativos.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'fecha_nacimiento' => 'date',
+    ];
+
+    /**
+     * Configura el mutador para encriptar la contraseña.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        $this->attributes['password'] = bcrypt($value);
     }
 }
