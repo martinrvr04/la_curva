@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/verify-email'; // Aquí pones la ruta que prefieras para redirigir después de registrarse
+    public const HOME = '/dashboard'; // Aquí pones la ruta que prefieras para redirigir después de registrarse
 
     public function boot()
     {

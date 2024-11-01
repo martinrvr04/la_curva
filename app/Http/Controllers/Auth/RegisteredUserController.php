@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class RegisteredUserController extends Controller
 {
     public function create()
@@ -43,7 +42,10 @@ class RegisteredUserController extends Controller
             'rol' => 'cliente',
         ]);
 
-        event(new Registered($user)); // Dispara el evento para enviar el correo de verificación
+        // Enviar la notificación de verificación
+        $user->sendEmailVerificationNotification(); // Asegúrate de llamar a esto
+
+        // Dispara el evento para que Laravel maneje el correo de verificación
 
         Auth::login($user);
 

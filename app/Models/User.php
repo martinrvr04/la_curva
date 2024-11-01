@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
@@ -33,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'ciudad_nacimiento',
         'fecha_nacimiento',
         'rol',
+        'email_verified_at',
     ];
 
     /**
@@ -61,8 +63,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param string $value
      * @return void
      */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
+   // public function setPasswordAttribute($value)
+    //{
+      //  $this->attributes['password'] = bcrypt($value);
+    //}
 }
