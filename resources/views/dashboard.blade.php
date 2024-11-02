@@ -16,7 +16,7 @@
             <nav>
                 <ul>
                     <li><a href="#">Inicio</a></li>
-                    <li><a href="{{ route('habitaciones') }}">Habitaciones</a></li>
+                    <li><a href="{{ route('habitaciones.index') }}">Habitaciones</a></li>
                     <li><a href="#">Servicios</a></li>
                     <li><a href="#">Explora Valdivia</a></li>
                     <li><a href="#">Contacto</a></li>

@@ -27,7 +27,9 @@
                         <li>Prepago por noche: ${{ $habitacion->prepago_noche }}</li>
                     </ul>
                     <p class="precio">Desde ${{ $habitacion->precio_noche }} por noche</p>
-                    <a href="#" class="btn">Reservar ahora</a>
+                    <a href="{{ route('reservas.create', $habitacion->id) }}" class="btn">Reservar ahora</a>
+
+
                 </div>
             </div>
         @endforeach

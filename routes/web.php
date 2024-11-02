@@ -13,15 +13,27 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\HabitacionesController;
 use App\Http\Controllers\PaginaController; // Asegúrate de importar tu controlador
 use App\Http\Controllers\HabitacionController;
+use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\ServicioAdicionalController;
+use App\Http\Controllers\PagoController;
+
+Route::get('/pagos/create', [PagoController::class, 'create'])->name('pagos.create');
+Route::post('/pagos', [PagoController::class, 'procesarPago'])->name('pagos.store');
+Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
 
 
+Route::get('/reservas/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
+Route::get('reservas/create/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+Route::resource('servicios', ServicioAdicionalController::class);
 
-
-
+Route::post('/reservar', [ReservaController::class, 'store'])->name('reservas.store');
+Route::get('/reservar/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
 // Rutas de autenticación
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones');
 
 // Ruta de registro con cierre de sesión si el usuario está autenticado y no ha verificado su correo
 Route::get('/register', function () {
