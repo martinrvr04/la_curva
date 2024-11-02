@@ -19,7 +19,7 @@ h1, h2, h3 {
 
 /* Estilos del header */
 header {
-    background-color: #333;
+    background-color: #333; /* Color gris oscuro */
     color: #fff;
     padding: 20px 0;
 }
@@ -51,7 +51,7 @@ nav a {
 
 /* Estilos de la sección hero */
 .hero {
-    background-image: url("img/hero.jpg"); /* Reemplaza con la imagen que quieras */
+    background-image: url("img/hero.jpg"); /* Reemplaza con una imagen de Cali */
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -66,7 +66,7 @@ nav a {
 
 .btn {
     display: inline-block;
-    background-color: #f0ad4e; 
+    background-color: #f0ad4e; /* Color naranja terracota */
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;

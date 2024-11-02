@@ -1,0 +1,101 @@
+/* Importa las fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+/* Estilos generales */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #f8f8f8; 
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Estilos del header */
+header {
+    background-color: #333; 
+    color: #fff;
+    padding: 20px 0;
+    text-align: center; 
+}
+
+header h1 {
+    margin: 0; 
+}
+
+/* Estilos de la sección habitaciones */
+.habitaciones {
+    padding: 50px 0;
+}
+
+.habitacion {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+    background-color: #fff; 
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+}
+
+.galeria {
+    flex: 1 1 200px; /* Reduce el ancho mínimo a 200px */
+    margin-right: 20px;
+}
+
+.galeria img {  /*  <---  Reglas para las imágenes  */
+    width: 100%;
+    max-height: 200px; 
+    object-fit: cover; 
+    margin-bottom: 10px;
+}
+
+.habitacion-info {
+    flex: 1 1 300px; 
+    padding: 20px;
+}
+
+.habitacion-info h3 {
+    margin-top: 0;
+}
+
+.habitacion-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #f0ad4e; 
+}
+
+.btn {
+    display: inline-block;
+    background-color: #f0ad4e;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #c9302c;
+}
+
+/* Estilos del footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}

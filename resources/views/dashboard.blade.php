@@ -1,39 +1,77 @@
-<!-- resources/views/dashboard.blade.php -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    - La Curva Apartamentos</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body>
 
-    <div class="min-h-screen flex flex-col">
-        <!-- Navbar -->
-        <header class="bg-blue-600 text-white py-4">
-            <div class="container mx-auto flex justify-between items-center px-6">
-                <h1 class="text-3xl font-semibold">Dashboard</h1>
-                <!-- Formulario para el cierre de sesión -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                <!-- Enlace de cierre de sesión -->
-                <a href="{{ route('logout') }}" class="text-white underline"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                   Cerrar sesión
-                </a>
+    <header>
+        <div class="container">
+            <a href="#" class="logo">La Curva Apartamentos</a>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="{{ route('habitaciones') }}">Habitaciones</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Explora Valdivia</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Bienvenido a La Curva</h2>
+                <p>Disfruta de una estancia inolvidable en Valdivia</p>
+                <a href="#" class="btn">Reserva ahora</a>
             </div>
-        </header>
+        </div>
+    </section>
 
-        <!-- Main Content -->
-        <main class="container mx-auto px-6 py-8 flex-1">
-            <h2 class="text-2xl font-bold mb-6">Bienvenido, {{ Auth::user()->nombre }}!</h2>
-            <p class="text-gray-700">Este es tu dashboard, donde puedes ver información importante de tu cuenta y gestionar tus actividades.</p>
-            <!-- Agrega más contenido del dashboard aquí -->
-        </main>
-    </div>
+    <section class="habitaciones">
+        <div class="container">
+            <h2>Nuestras habitaciones</h2>
+            <div class="grid">
+                <div class="habitacion">
+                    <img src="img/habitacion1.jpg" alt="Habitación Doble">
+                    <div class="habitacion-info">
+                        <h3>Habitación Doble</h3>
+                        <p>Descripción de la habitación doble...</p>
+                        <a href="#" class="btn">Ver detalles</a>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <section class="explora">
+        <div class="container">
+            <h2>Explora Valdivia</h2>
+            <div class="grid">
+                <div class="lugar">
+                    <img src="img/lugar1.jpg" alt="Mercado Fluvial">
+                    <div class="lugar-info">
+                        <h3>Mercado Fluvial</h3>
+                        <p>Descripción del Mercado Fluvial...</p>
+                        <a href="#" class="btn">Más información</a>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 La Curva Apartamentos</p>
+        </div>
+    </footer>
 
 </body>
 </html>

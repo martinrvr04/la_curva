@@ -10,6 +10,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\HabitacionesController;
+use App\Http\Controllers\PaginaController; // Asegúrate de importar tu controlador
+use App\Http\Controllers\HabitacionController;
+
 
 
 
@@ -32,6 +36,12 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/habitaciones/create', [HabitacionController::class, 'create'])->name('habitaciones.create');
+
+Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones.index');
+Route::get('/habitaciones/create', [HabitacionController::class, 'create'])->name('habitaciones.create');
+Route::post('/habitaciones', [HabitacionController::class, 'store'])->name('habitaciones.store');
+
 
 // Ruta del Dashboard
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -44,6 +54,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Rutas de verificación de correo electrónico
 // Rutas de verificación de correo electrónico
+//Route::get('/habitaciones', [PaginaController::class, 'showHabitaciones'])->name('habitaciones');
+
+// Asegúrate de que HabitacionesController exista y tenga un método llamado index
+Route::get('/habitaciones', [HabitacionesController::class, 'index'])->name('habitaciones.index');
+Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones.index');
 
 
 Route::middleware('auth')->group(function () {
@@ -53,7 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['auth', 'signed'])
         ->name('verification.verify');
-        
+
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
@@ -63,5 +78,6 @@ Route::get('/log-test', function () {
     \Log::info("Prueba de logs desde la ruta /log-test");
     return "Log de prueba ejecutado";
 });
+Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones.index');
 
 require __DIR__.'/auth.php';
