@@ -16,11 +16,32 @@ use App\Http\Controllers\HabitacionController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PayPalController; // Asegúrate de importar tu controlador de PayPal
 
+Route::get('/test-log', function () {
+    Log::debug('Mensaje de prueba');
+    return 'Prueba de log';
+});
+Route::get('/paypal/create', [PayPalController::class, 'create'])->name('paypal.create');
+Route::post('/paypal/store', [PayPalController::class, 'store'])->name('paypal.store');
+Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');
+Route::get('/paypal/cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
+
+Route::prefix('pagos')->group(function () {
+    Route::get('/', [PagoController::class, 'index'])->name('pagos.index');
+    Route::get('/create', [PagoController::class, 'create'])->name('pagos.create');
+    Route::post('/store', [PagoController::class, 'procesarPago'])->name('pagos.store');
+    Route::get('/confirmacion', [PagoController::class, 'confirmarPago'])->name('pagos.confirmacion');
+    Route::get('/error', [PagoController::class, 'error'])->name('pagos.error');
+});
+
+
+Route::get('/reservas/confirmacion', [ReservaController::class, 'confirmarReserva'])->name('reservas.confirmacion');
+Route::get('/reservas/confirmacion', [ReservaController::class, 'confirmarReserva'])->name('reservas.confirmacion');
 Route::get('/pagos/create', [PagoController::class, 'create'])->name('pagos.create');
 Route::post('/pagos', [PagoController::class, 'procesarPago'])->name('pagos.store');
 Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
-
+Route::get('/pagos/confirmacion', [PagoController::class, 'confirmarPago'])->name('pagos.confirmacion');
 
 Route::get('/reservas/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
 Route::get('reservas/create/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');

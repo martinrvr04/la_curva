@@ -16,7 +16,7 @@ class Reserva extends Model
         'fecha_entrada',
         'fecha_salida',
         'num_adultos',
-        'num_niños',
+        'num_ninos',
         'estado',
         'precio_habitacion',
         'precio_total',

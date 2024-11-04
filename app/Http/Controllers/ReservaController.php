@@ -58,6 +58,7 @@ class ReservaController extends Controller
             }
         }
 
+        // Guarda el precio total
         $reserva->precio_habitacion = $precioHabitacion;
         $reserva->precio_total = $precioHabitacion + $precioServicios; // Total
 
