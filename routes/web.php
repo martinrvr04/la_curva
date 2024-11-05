@@ -18,10 +18,9 @@ use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PayPalController; // Asegúrate de importar tu controlador de PayPal
 
-Route::get('/test-log', function () {
-    Log::debug('Mensaje de prueba');
-    return 'Prueba de log';
-});
+
+Route::get('/reservas/{reserva}', [ReservaController::class, 'show'])->name('reservas.show');
+Route::get('/reservas/{reserva}', [ReservaController::class, 'show'])->name('reservas.show');
 Route::get('/paypal/create', [PayPalController::class, 'create'])->name('paypal.create');
 Route::post('/paypal/store', [PayPalController::class, 'store'])->name('paypal.store');
 Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');

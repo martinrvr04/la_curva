@@ -52,6 +52,11 @@ class PayPalController extends Controller
         return view('paypal.create', compact('habitacionId', 'total', 'nombre', 'email', 'fechaEntrada', 'fechaSalida', 'numAdultos', 'numNinos', 'dni'));
     }
 
+    public function show(Reserva $reserva) 
+    {
+        return view('reservas.show', compact('reserva')); 
+    }
+
 
     public function store(Request $request)
     {

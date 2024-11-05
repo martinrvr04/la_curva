@@ -20,6 +20,12 @@ class ReservaController extends Controller
             'fecha_salida' => now()->addDay()->format('Y-m-d'),
         ]);
     }
+
+    public function show(Reserva $reserva) 
+    {
+        $reserva->load('habitacion'); // Carga la relación 'habitacion'
+        return view('reservas.show', compact('reserva')); 
+    }
     
     public function store(Request $request)
     {
