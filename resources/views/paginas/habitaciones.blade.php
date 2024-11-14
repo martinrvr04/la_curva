@@ -10,6 +10,12 @@
     <label for="fecha_salida">Fecha de salida:</label>
     <input type="date" id="fecha_salida" name="fecha_salida" required>
 
+    <label for="precio_min">Precio mínimo:</label>
+    <input type="number" id="precio_min" name="precio_min">
+
+    <label for="precio_max">Precio máximo:</label>
+    <input type="number" id="precio_max" name="precio_max">
+
     <button type="submit">Buscar habitaciones</button>
 </form>
 

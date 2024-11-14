@@ -46,19 +46,38 @@ class BuscadorHabitacionesController extends Controller
     return response()->json(['disponible' => $disponible]);
 }
 
+// En BuscadorHabitacionesController.php
 
 public function buscar(Request $request)
 {
     $fechaEntrada = $request->input('fecha_entrada');
     $fechaSalida = $request->input('fecha_salida');
+    $precioMin = $request->input('precio_min'); // Obtener el precio mínimo de la request
+    $precioMax = $request->input('precio_max'); // Obtener el precio máximo de la request
 
-    $habitacionesDisponibles = Habitacion::whereDoesntHave('disponibilidad', function ($query) use ($fechaEntrada, $fechaSalida) {
-        $query->where(function ($q) use ($fechaEntrada, $fechaSalida) {
-            $q->where('fecha_inicio', '<', $fechaSalida)
-              ->where('fecha_fin', '>', $fechaEntrada);
+    $habitaciones = Habitacion::query(); // Inicializar la consulta
+
+    if ($fechaEntrada && $fechaSalida) {
+        $habitaciones->whereDoesntHave('disponibilidad', function ($query) use ($fechaEntrada, $fechaSalida) {
+            $query->where(function ($q) use ($fechaEntrada, $fechaSalida) {
+                $q->where('fecha_inicio', '<', $fechaSalida)
+                  ->where('fecha_fin', '>', $fechaEntrada);
+            });
         });
-    })->get();
+    }
 
-    return view('paginas.habitaciones', compact('habitacionesDisponibles')); // Asegúrate de que la vista 'paginas.habitaciones' exista
+    // Filtrar por precio mínimo (si se proporciona)
+    if ($precioMin) {
+        $habitaciones->where('precio_noche', '>=', $precioMin);
+    }
+
+    // Filtrar por precio máximo (si se proporciona)
+    if ($precioMax) {
+        $habitaciones->where('precio_noche', '<=', $precioMax);
+    }
+
+    $habitacionesDisponibles = $habitaciones->get();
+
+    return view('paginas.habitaciones', compact('habitacionesDisponibles')); 
 }
 }
