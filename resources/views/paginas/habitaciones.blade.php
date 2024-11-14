@@ -5,10 +5,10 @@
 
     <form action="{{ route('habitaciones.buscar') }}" method="GET">
     <label for="fecha_entrada">Fecha de entrada:</label>
-    <input type="date" id="fecha_entrada" name="fecha_entrada" required>
+    <input type="date" id="fecha_entrada" name="fecha_entrada">
 
     <label for="fecha_salida">Fecha de salida:</label>
-    <input type="date" id="fecha_salida" name="fecha_salida" required>
+    <input type="date" id="fecha_salida" name="fecha_salida">
 
     <label for="precio_min">Precio mínimo:</label>
     <input type="number" id="precio_min" name="precio_min">
