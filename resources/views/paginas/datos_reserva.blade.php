@@ -163,6 +163,7 @@
 
     // Redirigir a la vista de pago al hacer clic en "Pagar"
     document.getElementById('pagar-btn').addEventListener('click', function() {
+
         const habitacionId = document.querySelector('input[name="habitacion_id"]').value;
         const total = document.getElementById('total').innerText;
         const fechaEntrada = document.getElementById('hidden_fecha_entrada').value;
@@ -172,6 +173,29 @@
         const numAdultos = document.getElementById('num_adultos').value;
         const numNinos = document.getElementById('num_ninos').value;
         const dni = document.getElementById('dni').value; // Obtener el valor del DNI
+
+
+
+
+        const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/habitaciones/disponibilidad?habitacion_id=${habitacionId}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}`);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.disponible) {
+                // La habitación está disponible, puedes redirigir o continuar con el proceso de pago
+                window.location.href = `{{ route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
+            } else {
+                // Mostrar mensaje de error en la misma página
+                alert("La habitación no está disponible en las fechas seleccionadas.");
+            }
+        } else {
+            console.error("Error al verificar la disponibilidad.");
+            alert("Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.");
+        }
+    };
+    xhr.send();
+        
 
 
         // Log de las fechas y total antes de redirigir
@@ -188,7 +212,7 @@
 
         // Redirigir a la página de pago con los datos necesarios
         // Asegúrate de que la ruta `pagos.create` esté definida correctamente en tu aplicación
-        window.location.href = `{{route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
+        //window.location.href = `{{route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
     });
 
     function calcularTotal() {
