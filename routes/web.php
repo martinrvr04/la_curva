@@ -21,7 +21,14 @@ use App\Http\Controllers\AdminController; // Asegúrate de importar tu controlad
 use App\Http\Controller\DashboardPrincipalController;
 use App\Http\Controller\BuscadorHabitacionesController;
 
-Route::get('/habitaciones/disponibilidad', [App\Http\Controllers\BuscadorHabitacionesController::class, 'verificarDisponibilidad'])->name('habitaciones.disponibilidad');Route::get('/habitaciones/buscar', [App\Http\Controllers\BuscadorHabitacionesController::class, 'buscar'])->name('habitaciones.buscar');
+Route::get('/habitaciones/buscar', [BuscadorHabitacionesController::class, 'buscar'])->name('habitaciones.buscar');
+
+Route::get('/reservas/buscar-vista', function () {
+    return view('reservas.buscar');
+})->name('reservas.buscar-vista');
+Route::get('/cancelar-reserva/{reserva}', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');Route::get('/reservas/buscar', [ReservaController::class, 'buscarPorCodigo'])->name('reservas.buscar_codigo');
+Route::get('/habitaciones/disponibilidad', [App\Http\Controllers\BuscadorHabitacionesController::class, 'verificarDisponibilidad'])->name('habitaciones.disponibilidad');
+Route::get('/habitaciones/buscar', [App\Http\Controllers\BuscadorHabitacionesController::class, 'buscar'])->name('habitaciones.buscar');
 Route::get('/dashboard/habitaciones/{id}', [HabitacionDashboardController::class, 'show'])->name('habitaciones.dashboard');
 Route::get('/reservas/{reserva}', [ReservaController::class, 'show'])->name('reservas.show');
 Route::get('/admin/ganancias/{habitacion}', [AdminController::class, 'ganancias'])->name('admin.ganancias');

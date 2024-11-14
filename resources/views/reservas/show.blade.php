@@ -10,6 +10,7 @@
   <p><strong>Fecha de entrada:</strong> {{ $reserva->fecha_entrada }}</p>
   <p><strong>Fecha de salida:</strong> {{ $reserva->fecha_salida }}</p>
   <p><strong>Precio total:</strong> {{ $reserva->precio_total }}</p>
+  <p><strong>Código de reserva:</strong> {{ $reserva->codigo }}</p> 
 
 </body>
 </html>

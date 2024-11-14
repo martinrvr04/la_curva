@@ -22,9 +22,9 @@ class Reserva extends Model
         'precio_total',
         'nombre', // Nuevo campo
         'dni',    // Nuevo campo
-        'email',  // Nuevo campo
-        'precio_total', 
-
+        'email',
+        'codigo'  // Nuevo campo
+        
     ];
 
     // Define las relaciones si es necesario
@@ -36,5 +36,12 @@ class Reserva extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario');
+    }
+
+   // En Reserva.php
+
+    public function disponibilidad()
+    {
+        return $this->hasOne(DisponibilidadHabitacion::class, 'habitacion_id', 'habitacion'); 
     }
 }

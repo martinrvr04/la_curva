@@ -6,6 +6,8 @@ use App\Models\Habitacion;
 use App\Models\Reserva; // Asegúrate de importar el modelo de Reserva
 use App\Models\ServicioAdicional; // Importa el modelo de ServicioAdicional
 use Illuminate\Http\Request;
+use App\Models\DisponibilidadHabitacion; // Agrega esta línea
+
 
 class ReservaController extends Controller
 {
@@ -72,5 +74,46 @@ class ReservaController extends Controller
 
         // Redirigir a la página de pago o a otra página de éxito
         return redirect()->route('pago.index', ['reserva' => $reserva->id])->with('success', 'Reserva creada exitosamente.');
+    }
+
+
+
+
+    // En ReservaController.php
+    public function buscarPorCodigo(Request $request)
+    {
+        $codigo = $request->input('codigo');
+
+        $reserva = Reserva::where('codigo', $codigo)->first();
+
+        if ($reserva) {
+            // Si la reserva existe, mostrar la vista con la información de la reserva y el botón para cancelar
+            return view('reservas.mostrar', compact('reserva')); // Asegúrate de crear esta vista
+        } else {
+            return redirect()->back()->withErrors(['error' => 'No se encontró ninguna reserva con ese código.']);
+        }
+    }
+
+
+    // En ReservaController.php
+        // En ReservaController.php
+    public function cancelar(Reserva $reserva)
+    {
+        // Verificar que la reserva pueda ser cancelada (por ejemplo, que no haya pasado la fecha de entrada)
+        if ($reserva->fecha_entrada < now()) {
+            return redirect()->back()->withErrors(['error' => 'No se puede cancelar una reserva que ya ha comenzado.']);
+        }
+
+        // Eliminar el registro de disponibilidad asociado a la reserva (corregido)
+        DisponibilidadHabitacion::where('habitacion_id', $reserva->habitacion)
+                                ->where('fecha_inicio', $reserva->fecha_entrada)
+                                ->where('fecha_fin', $reserva->fecha_salida)
+                                ->delete();
+
+        // Actualizar el estado de la reserva a "cancelada"
+        $reserva->estado = 'cancelada';
+        $reserva->save();
+
+        return redirect('/')->with('success', 'Reserva cancelada con éxito.'); 
     }
 }

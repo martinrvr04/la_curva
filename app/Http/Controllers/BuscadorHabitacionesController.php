@@ -38,11 +38,27 @@ class BuscadorHabitacionesController extends Controller
         Log::debug('BuscadorHabitacionesController@verificarDisponibilidad: Disponibilidad verificada:', ['disponible' => $disponible]);
 
     } catch (\Exception $e) {
-        Log::error('BuscadorHabitacionesController@verificarDisponibilidad: Error al verificar la disponibilidad:', ['error' => $e->getMessage()]);
+        Log::error('Bus3cadorHabitacionesController@verificarDisponibilidad: Error al verificar la disponibilidad:', ['error' => $e->getMessage()]);
         return response()->json(['disponible' => false, 'error' => $e->getMessage()], 500);
     }
 
     // Retorna la respuesta en formato JSON
     return response()->json(['disponible' => $disponible]);
+}
+
+
+public function buscar(Request $request)
+{
+    $fechaEntrada = $request->input('fecha_entrada');
+    $fechaSalida = $request->input('fecha_salida');
+
+    $habitacionesDisponibles = Habitacion::whereDoesntHave('disponibilidad', function ($query) use ($fechaEntrada, $fechaSalida) {
+        $query->where(function ($q) use ($fechaEntrada, $fechaSalida) {
+            $q->where('fecha_inicio', '<', $fechaSalida)
+              ->where('fecha_fin', '>', $fechaEntrada);
+        });
+    })->get();
+
+    return view('paginas.habitaciones', compact('habitacionesDisponibles')); // Asegúrate de que la vista 'paginas.habitaciones' exista
 }
 }

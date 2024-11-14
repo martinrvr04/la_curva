@@ -9,6 +9,7 @@ use App\Models\Reserva;
 use \DateTime;
 use DateInterval;
 use App\Models\DisponibilidadHabitacion; // Asegúrate de importar el modelo DisponibilidadHabitacion
+use Illuminate\Support\Str; // Agrega esta línea
 
 class PayPalController extends Controller
 {
@@ -149,6 +150,9 @@ class PayPalController extends Controller
                     // Asegúrate de obtener el total del precio correctamente
                     $total = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
 
+
+                    $codigoUnico = Str::random(10); 
+
                     // Crear la reserva en la base de datos
                     $reserva = Reserva::create([
                         'usuario' => auth()->user()->id,
@@ -162,6 +166,9 @@ class PayPalController extends Controller
                         'precio_habitacion' => $total,
                         'precio_total' => $total,
                         'dni' => $reservaData['dni'],
+                        'codigo' => $codigoUnico, // Agregar el código único a la reserva
+
+
                         
                     ]);
 
