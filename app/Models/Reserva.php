@@ -23,6 +23,8 @@ class Reserva extends Model
         'nombre', // Nuevo campo
         'dni',    // Nuevo campo
         'email',  // Nuevo campo
+        'precio_total', 
+
     ];
 
     // Define las relaciones si es necesario

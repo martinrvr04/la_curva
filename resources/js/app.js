@@ -1,6 +1,8 @@
-import './bootstrap';
+require('./bootstrap');
 
-import Alpine from 'alpinejs';
+import 'bootstrap'; // Importación de Bootstrap
+
+import Alpine from 'alpinejs'; // Importación de Alpine.js
 
 window.Alpine = Alpine;
 

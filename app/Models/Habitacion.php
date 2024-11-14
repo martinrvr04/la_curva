@@ -25,4 +25,12 @@ class Habitacion extends Model
     {
         return $this->hasMany(Imagen::class);
     }
+
+
+    // En Habitacion.php
+
+    public function disponibilidad()
+    {
+        return $this->hasMany(DisponibilidadHabitacion::class);
+}
 }

@@ -17,10 +17,14 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ServicioAdicionalController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PayPalController; // Asegúrate de importar tu controlador de PayPal
+use App\Http\Controllers\AdminController; // Asegúrate de importar tu controlador de PayPal
+use App\Http\Controller\DashboardPrincipalController;
+use App\Http\Controller\BuscadorHabitacionesController;
 
-
+Route::get('/habitaciones/buscar', [App\Http\Controllers\BuscadorHabitacionesController::class, 'buscar'])->name('habitaciones.buscar');
+Route::get('/dashboard/habitaciones/{id}', [HabitacionDashboardController::class, 'show'])->name('habitaciones.dashboard');
 Route::get('/reservas/{reserva}', [ReservaController::class, 'show'])->name('reservas.show');
-Route::get('/reservas/{reserva}', [ReservaController::class, 'show'])->name('reservas.show');
+Route::get('/admin/ganancias/{habitacion}', [AdminController::class, 'ganancias'])->name('admin.ganancias');
 Route::get('/paypal/create', [PayPalController::class, 'create'])->name('paypal.create');
 Route::post('/paypal/store', [PayPalController::class, 'store'])->name('paypal.store');
 Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');

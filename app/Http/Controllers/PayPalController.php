@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal;
 use Illuminate\Support\Facades\Log;
-use App\Models\Reserva; 
+use App\Models\Reserva;
+use \DateTime;
+use DateInterval;
+use App\Models\DisponibilidadHabitacion; // Asegúrate de importar el modelo DisponibilidadHabitacion
 
 class PayPalController extends Controller
 {
@@ -18,11 +21,11 @@ class PayPalController extends Controller
         $total = $request->query('total');
         $nombre = $request->query('nombre');
         $email = $request->query('email');
-        $fechaEntrada = $request->query('fecha_entrada'); 
-        $fechaSalida = $request->query('fecha_salida'); 
-        $numAdultos = $request->query('num_adultos'); 
-        $numNinos = $request->query('num_ninos'); 
-        $dni = $request->query('dni'); 
+        $fechaEntrada = $request->query('fecha_entrada');
+        $fechaSalida = $request->query('fecha_salida');
+        $numAdultos = $request->query('num_adultos');
+        $numNinos = $request->query('num_ninos');
+        $dni = $request->query('dni');
 
         // Guardar los datos de la reserva en la sesión
         $request->session()->put('reservaData', [
@@ -46,23 +49,23 @@ class PayPalController extends Controller
             'fechaSalida' => $fechaSalida,
             'numAdultos' => $numAdultos,
             'numNinos' => $numNinos,
-            'dni' => $dni, 
+            'dni' => $dni,
         ]);
 
         return view('paypal.create', compact('habitacionId', 'total', 'nombre', 'email', 'fechaEntrada', 'fechaSalida', 'numAdultos', 'numNinos', 'dni'));
     }
 
-    public function show(Reserva $reserva) 
+    public function show(Reserva $reserva)
     {
-        return view('reservas.show', compact('reserva')); 
+        return view('reservas.show', compact('reserva'));
     }
 
 
     public function store(Request $request)
     {
-        
+
         Log::debug('PayPalController@store: Iniciando el proceso de pago.');
-    
+
         // Validación de datos 
         $validatedData = $request->validate([
             'habitacion_id' => 'required|integer',
@@ -71,15 +74,15 @@ class PayPalController extends Controller
             'email' => 'required|email',
             // ... otros campos de validación
         ]);
-    
+
         Log::debug('PayPalController@store: Datos validados.');
-    
+
         $provider = new PayPal;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
-    
+
         Log::debug('PayPalController@store: Token de acceso obtenido.');
-    
+
         try {
             // Recuperar los datos de la reserva desde la sesión
             $reservaData = $request->session()->get('reservaData');
@@ -90,12 +93,12 @@ class PayPalController extends Controller
                 "purchase_units" => [[
                     "amount" => [
                         "currency_code" => "USD",
-                        "value" => $validatedData['total'] 
+                        "value" => $validatedData['total']
                     ],
                     "reference_id" => json_encode([
-                        'habitacion_id' => $reservaData['habitacion_id'], 
-                        'nombre' => $reservaData['nombre'], 
-                        'email' => $reservaData['email'], 
+                        'habitacion_id' => $reservaData['habitacion_id'],
+                        'nombre' => $reservaData['nombre'],
+                        'email' => $reservaData['email'],
                         'fecha_entrada' => $reservaData['fecha_entrada'],
                         'fecha_salida' => $reservaData['fecha_salida'],
                         'num_adultos' => $reservaData['num_adultos'],
@@ -109,17 +112,16 @@ class PayPalController extends Controller
                     "cancel_url" => route('paypal.cancel'),
                 ]
             ]);
-    
+
             Log::debug('PayPalController@store: Orden de PayPal creada:', ['order' => $order]);
-    
+
             // Redirigir a la URL de aprobación de PayPal
             $approvalUrl = $order['links'][1]['href'];
             Log::debug('PayPalController@store: Redirigiendo a la URL de aprobación:', ['approvalUrl' => $approvalUrl]);
             return redirect($approvalUrl);
-    
         } catch (\Exception $e) {
             Log::error('PayPalController@store: Error al crear la orden de PayPal:', ['error' => $e->getMessage()]);
-            return redirect()->back()->withErrors(['error' => 'Error al crear la orden de PayPal. Por favor, inténtalo de nuevo más tarde.']); 
+            return redirect()->back()->withErrors(['error' => 'Error al crear la orden de PayPal. Por favor, inténtalo de nuevo más tarde.']);
         }
     }
 
@@ -139,7 +141,7 @@ class PayPalController extends Controller
             $response = $provider->capturePaymentOrder($orderId);
             Log::debug('PayPalController@success: Pago capturado:', ['response' => $response]);
 
-            
+
             if (isset($response['purchase_units'][0]['reference_id'])) {
                 $reservaData = json_decode($response['purchase_units'][0]['reference_id'], true);
 
@@ -157,10 +159,24 @@ class PayPalController extends Controller
                         'num_ninos' => $reservaData['num_ninos'],
                         'nombre' => $reservaData['nombre'],
                         'email' => $reservaData['email'],
-                        'precio_habitacion' => $total, 
-                        'precio_total' => $total, 
-                        'dni' => $reservaData['dni'], 
+                        'precio_habitacion' => $total,
+                        'precio_total' => $total,
+                        'dni' => $reservaData['dni'],
+                        
                     ]);
+
+
+                    Log::debug('PayPalController@success: Fecha de entrada:', ['fecha_entrada' => $reservaData['fecha_entrada']]);
+                    Log::debug('PayPalController@success: Fecha de salida:', ['fecha_salida' => $reservaData['fecha_salida']]);
+
+
+                    DisponibilidadHabitacion::create([
+                        'habitacion_id' => $reservaData['habitacion_id'],
+                        'fecha_inicio' => $reservaData['fecha_entrada'],
+                        'fecha_fin' => $reservaData['fecha_salida'],
+                    ]);
+
+    
 
                     // Limpiar los datos de la sesión
                     $request->session()->forget('reservaData');
@@ -168,17 +184,14 @@ class PayPalController extends Controller
                     // Redirigir a la página de confirmación
                     return redirect()->route('reservas.show', $reserva->id)
                         ->with('success', 'Reserva creada con éxito.');
-
                 } catch (\Exception $e) {
                     Log::error('PayPalController@success: Error al crear la reserva:', ['error' => $e->getMessage()]);
                     return redirect()->back()->withErrors(['error' => 'Error al crear la reserva.']);
                 }
-
             } else {
                 Log::error('PayPalController@success: Error: reference_id no encontrado en la respuesta de PayPal');
                 return redirect()->back()->withErrors(['error' => 'Error al procesar el pago.']);
             }
-
         } catch (\Exception $e) {
             Log::error('PayPalController@success: Error al capturar el pago:', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors(['error' => 'Error al capturar el pago de PayPal.']);
