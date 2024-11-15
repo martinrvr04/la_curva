@@ -84,5 +84,4 @@ class LoginController extends Controller
 {
     return view('auth.login'); // Asegúrate de que la vista auth.login exista
 }
-
 }

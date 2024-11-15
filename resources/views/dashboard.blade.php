@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    - La Curva Apartamentos</title>
+    <title>La Curva Apartamentos</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -20,6 +20,14 @@
                     <li><a href="#">Servicios</a></li>
                     <li><a href="#">Explora Valdivia</a></li>
                     <li><a href="#">Contacto</a></li>
+                    @if (auth()->check()) 
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    @endif
                 </ul>
             </nav>
         </div>
@@ -47,7 +55,7 @@
                         <a href="#" class="btn">Ver detalles</a>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
@@ -62,8 +70,8 @@
                         <p>Descripción del Mercado Fluvial...</p>
                         <a href="#" class="btn">Más información</a>
                     </div>
-                </div>
-                </div>
+                </div> 
+            </div>
         </div>
     </section>
 

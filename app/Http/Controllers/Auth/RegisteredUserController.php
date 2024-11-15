@@ -1,14 +1,16 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User; // Asegúrate de usar el modelo correcto
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log; // Importa la fachada Log
+
 
 class RegisteredUserController extends Controller
 {
@@ -24,10 +26,7 @@ class RegisteredUserController extends Controller
             'apellido' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:usuarios',
             'password' => 'required|string|confirmed|min:8',
-            'telefono' => 'nullable|string|max:20',
-            'pais' => 'nullable|string|max:50',
-            'ciudad_nacimiento' => 'nullable|string|max:50',
-            'fecha_nacimiento' => 'nullable|date',
+            'telefono' => 'required|string|max:20', // Teléfono ahora es requerido
         ]);
 
         $user = User::create([
@@ -36,16 +35,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'telefono' => $request->telefono,
-            'pais' => $request->pais,
-            'ciudad_nacimiento' => $request->ciudad_nacimiento,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
-            'rol' => 'cliente',
+            'rol' => 'cliente', 
         ]);
+        Log::info('Intentando enviar correo de verificación a: ' . $user->email); // Log antes de enviar el correo
 
-        // Enviar la notificación de verificación
-        $user->sendEmailVerificationNotification(); // Asegúrate de llamar a esto
+        $user->sendEmailVerificationNotification(); // Envía la notificación de correo
 
-        // Dispara el evento para que Laravel maneje el correo de verificación
+        Log::info('Correo de verificación enviado (o al menos eso se intentó).'); // Log después de enviar el cor
 
         Auth::login($user);
 

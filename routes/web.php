@@ -21,6 +21,10 @@ use App\Http\Controllers\AdminController; // Asegúrate de importar tu controlad
 use App\Http\Controller\DashboardPrincipalController;
 use App\Http\Controller\BuscadorHabitacionesController;
 
+Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['signed'])
+    ->name('verification.verify');
+
 Route::get('/habitaciones/buscar', [BuscadorHabitacionesController::class, 'buscar'])->name('habitaciones.buscar');
 
 Route::get('/reservas/buscar-vista', function () {
@@ -104,18 +108,6 @@ Route::get('/habitaciones', [HabitacionesController::class, 'index'])->name('hab
 Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones.index');
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
-
-        Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['auth', 'signed'])
-        ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-});
 // Ruta de prueba de logging
 Route::get('/log-test', function () {
     \Log::info("Prueba de logs desde la ruta /log-test");

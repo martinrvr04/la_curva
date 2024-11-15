@@ -1,34 +1,45 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+namespace App\Http\Controllers\Auth;
 
-class RegisterController extends Controller
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class RegisteredUserController extends Controller
 {
+    public function create()
+    {
+        return view('auth.register');
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|string|email|max:255|unique:usuarios',
+            'password' => 'required|string|confirmed|min:8',
+            'telefono' => 'required|string|max:20', // Teléfono ahora es requerido
         ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
 
         $user = User::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'telefono' => $request->telefono,
+            'rol' => 'cliente', 
         ]);
 
-        $user->sendEmailVerificationNotification();
+          $user->sendEmailVerificationNotification();  // Comentar o eliminar esta línea
 
-        return redirect()->route('login')->with('status', 'Te hemos enviado un correo electrónico de verificación.');
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }
