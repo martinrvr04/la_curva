@@ -22,6 +22,9 @@
                     <li><a href="#">Contacto</a></li>
                     @if (auth()->check()) 
                     <li>
+  <a href="{{ route('perfil.mis-reservas') }}">Mis reservas</a>
+</li>
+                    <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">Cerrar sesión</button>

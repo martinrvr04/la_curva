@@ -67,4 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
     //{
       //  $this->attributes['password'] = bcrypt($value);
     //}
+// app/Models/User.php
+
+public function reservas()
+{
+    return $this->hasMany(Reserva::class, 'usuario'); // <-- Usar 'usuario' aquí
+}
 }

@@ -20,6 +20,16 @@ use App\Http\Controllers\PayPalController; // Asegúrate de importar tu controla
 use App\Http\Controllers\AdminController; // Asegúrate de importar tu controlador de PayPal
 use App\Http\Controller\DashboardPrincipalController;
 use App\Http\Controller\BuscadorHabitacionesController;
+use App\Http\Controllers\ReseñaController;
+use App\Http\Controllers\HabitacionDashboardController;
+use App\Http\Controllers\PerfilController;
+
+
+Route::get('/habitacion/{id}/reseñas', [HabitacionController::class, 'obtenerReseñas']);
+Route::get('/perfil/mis-reservas', [PerfilController::class, 'misReservas'])->name('perfil.mis-reservas');
+
+Route::get('/reseñas/create/{reserva}', [App\Http\Controllers\ReseñaController::class, 'create'])->name('reseñas.create');
+Route::post('/reseñas', [App\Http\Controllers\ReseñaController::class, 'store'])->name('reseñas.store');
 
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed'])
@@ -53,17 +63,17 @@ Route::prefix('pagos')->group(function () {
 Route::get('/reservas/confirmacion', [ReservaController::class, 'confirmarReserva'])->name('reservas.confirmacion');
 Route::get('/reservas/confirmacion', [ReservaController::class, 'confirmarReserva'])->name('reservas.confirmacion');
 Route::get('/pagos/create', [PagoController::class, 'create'])->name('pagos.create');
-Route::post('/pagos', [PagoController::class, 'procesarPago'])->name('pagos.store');
+//Route::post('/pagos', [PagoController::class, 'procesarPago'])->name('pagos.store');
 Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
 Route::get('/pagos/confirmacion', [PagoController::class, 'confirmarPago'])->name('pagos.confirmacion');
 
-Route::get('/reservas/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
+//Route::get('/reservas/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
 Route::get('reservas/create/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 Route::resource('servicios', ServicioAdicionalController::class);
 
-Route::post('/reservar', [ReservaController::class, 'store'])->name('reservas.store');
-Route::get('/reservar/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
+//Route::post('/reservar', [ReservaController::class, 'store'])->name('reservas.store');
+//Route::get('/reservar/{habitacion}', [ReservaController::class, 'create'])->name('reservas.create');
 // Rutas de autenticación
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
@@ -114,5 +124,6 @@ Route::get('/log-test', function () {
     return "Log de prueba ejecutado";
 });
 Route::get('/habitaciones', [HabitacionController::class, 'index'])->name('habitaciones.index');
+Route::get('/habitaciones/{id}', [HabitacionController::class, 'show'])->name('habitaciones.show');
 
 require __DIR__.'/auth.php';

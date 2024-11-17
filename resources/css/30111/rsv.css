@@ -1,0 +1,96 @@
+body {
+    font-family: 'Times New Roman', Times, serif; /* Mantener la fuente simple */
+    background-color: #f1ebe5; /* Color de fondo similar al de la imagen */
+}
+
+.container {
+    display: flex; /* Activar Flexbox */
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center; /* Centrar horizontalmente */
+    background-color: #f1ebe5;
+    max-width: 500px; /* Limitar el ancho del contenedor */
+    margin: 50px auto; /* Centrar el contenedor */
+    padding: 30px;
+    border: 1px solid #ddd; /* Agregar un borde sutil */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    width: 150px; /* Ajustar el ancho del logo */
+    display: block;
+    margin: 0 auto 20px;
+}
+
+h1 {
+    color: #715f54; /* Color del título similar al de la imagen */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: center;
+    color: #666; /* Color del texto similar al de la imagen */
+    margin-bottom: 20px;
+}
+
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: center; /* Centrar el texto dentro de los grupos de formulario */
+        width: 100%; /* Asegurar que los grupos ocupen todo el ancho */
+    }
+  
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; /* Resaltar las etiquetas */
+}
+
+input[type="date"],
+input[type="number"],
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.dh { display:flex;
+    flex-direction: row;
+}
+
+.ddhh { display:flex;
+    flex-direction: row;
+}
+
+.nro{ display:flex;
+    flex-direction: row;
+}
+.nin{ display:flex;
+    flex-direction: row;
+}
+
+button {
+    background-color: #715f54; /* Color del botón principal */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#agregar-servicios {
+    background-color: #715f54;
+    margin-bottom: 10px;
+}
+
+/* Estilos para los spans que muestran información */
+#precio, #total {
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
+}

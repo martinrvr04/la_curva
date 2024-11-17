@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de la reserva</title>
+    <style>
+ 
+        body {
+            background-image: url('feca.png');
+        }
+        
+    </style>
+    <link rel="stylesheet" href="rsv.css">
+</head>
+
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Logo La Curva" class="logo"> 
+        <h1>Datos de la reserva</h1>
+        <p>Privada - capacidad: 3</p>
+<div class="centrar">
+        <div class="form-group">
+            <label for="precio">Precio por noche:</label>
+            <span id="precio"></span> 
+        </div>
+<div class="dh"> 
+        <div class="form-group">
+            <label for="desde">Desde:</label>
+            <input type="date" id="desde" name="desde">
+        </div>
+
+        <div class="form-group">
+            <label for="hasta">Hasta:</label>
+            <input type="date" id="hasta" name="hasta">
+        </div>
+</div>
+        <div class="form-group">
+            <label for="total">Total:</label>
+            <span id="total"></span> 
+        </div>
+<div class="ddhh"> 
+        <div class="form-group">
+            <label for="fecha-entrada">Fecha entrada:</label>
+            <input type="date" id="fecha-entrada" name="fecha-entrada">
+        </div>
+
+        <div class="form-group">
+            <label for="fecha-salida">Fecha Salida:</label>
+            <input type="date" id="fecha-salida" name="fecha-salida">
+        </div>
+</div>
+<div class="nro"> 
+        <div class="form-group">
+            <label for="nro-adultos">Nro Adultos:</label>
+            <input type="number" id="nro-adultos" name="nro-adultos" min="1">
+        </div>
+
+        <div class="form-group">
+            <label for="nro-niños">Nro Niños:</label>
+            <input type="number" id="nro-niños" name="nro-niños" min="0">
+        </div>
+</div>
+<div class="nin"> 
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+        </div>
+
+        <div class="form-group">
+            <label for="dni">DNI/Pasaporte:</label>
+            <input type="text" id="dni" name="dni">
+        </div>
+</div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+</div>
+        <button id="agregar-servicios">Agregar Servicios adicionales</button> 
+
+        <button id="pagar">Pagar</button>
+    </div>
+    
+
+    <script src="script.js"></script> </body>
+</html>

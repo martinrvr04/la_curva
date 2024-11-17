@@ -1,0 +1,50 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+}
+
+.left-column {
+    flex-basis: 60%;
+}
+
+.right-column {
+    flex-basis: 40%;
+    padding-left: 20px;
+}
+
+.galeria {
+    /* Estilos para el slider (si usas una librería) */
+}
+
+.galeria img {
+    width: 100%; /* Ajusta el tamaño de las imágenes si es necesario */
+    height: auto;
+    display: block; /* Para evitar espacio en blanco debajo de las imágenes */
+}
+
+.habitacion-info h2 {
+    margin-bottom: 10px;
+}
+
+.habitacion-info p {
+    margin-bottom: 20px;
+}
+
+.habitacion-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.btn-reservar {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}

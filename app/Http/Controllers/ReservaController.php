@@ -70,6 +70,7 @@ class ReservaController extends Controller
         $reserva->precio_habitacion = $precioHabitacion;
         $reserva->precio_total = $precioHabitacion + $precioServicios; // Total
 
+        $reserva->usuario_id = auth()->user()->id;
         $reserva->save();
 
         // Redirigir a la página de pago o a otra página de éxito

@@ -33,4 +33,16 @@ class Habitacion extends Model
     {
         return $this->hasMany(DisponibilidadHabitacion::class);
 }
+
+
+    // En el modelo Habitacion.php
+
+// En el modelo Habitacion.php
+
+   // En el modelo Habitacion.php
+
+public function reseñas()
+{
+    return $this->hasManyThrough(Reseña::class, Reserva::class, 'habitacion', 'reserva', 'id', 'id');
+}
 }

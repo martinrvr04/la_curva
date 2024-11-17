@@ -1,0 +1,1 @@
+C:\xampp\php\php "C:\Users\elsic\le_curve\artisan" short-schedule:run
