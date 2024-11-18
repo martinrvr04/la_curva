@@ -58,6 +58,7 @@ class HabitacionController extends Controller
     {
         // Validar el formulario
         $request->validate([
+            'nombre' => 'required', // Asegúrate de validar el nombre
             'numero' => 'required',
             'tipo' => 'required',
             'capacidad' => 'required|integer',
@@ -69,6 +70,7 @@ class HabitacionController extends Controller
 
         // Crear la habitación
         $habitacion = Habitacion::create([
+            'nombre' => $request->nombre, // <-- Corrección aquí
             'numero' => $request->numero,
             'tipo' => $request->tipo,
             'capacidad' => $request->capacidad,

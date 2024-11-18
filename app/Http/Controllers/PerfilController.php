@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reserva;
-use App\Models\Habitacion; // Asegúrate de importar el modelo Habitacion
+use App\Models\Habitacion; 
 
 class PerfilController extends Controller
 {
@@ -12,8 +12,8 @@ class PerfilController extends Controller
     {
         $reservas = Reserva::where('usuario', auth()->user()->id)->get();
 
-        // Obtener los nombres de las habitaciones
-        $habitaciones = Habitacion::pluck('tipo', 'id'); // Obtener un array con el tipo de habitación y su ID
+        // Obtener los nombres de las habitaciones (corrección aquí)
+        $habitaciones = Habitacion::pluck('nombre', 'id'); 
 
         return view('perfil.mis-reservas', compact('reservas', 'habitaciones'));
     }

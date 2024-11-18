@@ -13,6 +13,7 @@ class Habitacion extends Model
 
     protected $fillable = [
         'numero',
+        'nombre',
         'tipo',
         'capacidad',
         'precio_noche',

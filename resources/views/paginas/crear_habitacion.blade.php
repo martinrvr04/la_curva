@@ -16,6 +16,10 @@
     <form action="{{ route('habitaciones.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
+            <label for="nombre">Nombre:</label> 
+            <input type="text" name="nombre" required> 
+        </div>
+        <div>
             <label for="numero">Número:</label>
             <input type="text" name="numero" required>
         </div>

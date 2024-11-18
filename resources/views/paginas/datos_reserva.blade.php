@@ -4,7 +4,121 @@
     <title>Reserva</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #786fa6; /* Color morado */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #54497d; /* Color morado más oscuro al pasar el mouse */
+        }
+
+        /* Estilos del encabezado */
+        header {
+            background-color: #e67e22; /* Color naranja */
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            float: left;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            float: right;
+        }
+
+        nav li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #f1c40f; /* Color amarillo al pasar el mouse */
+        }
+
+        /* Estilos para la sección de reserva */
+        .reserva {
+            padding: 50px 0;
+        }
+
+        .reserva .habitacion-info {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Estilos para el formulario */
+        #reserva-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #reserva-form input[type="text"],
+        #reserva-form input[type="email"],
+        #reserva-form input[type="number"],
+        #reserva-form input[type="date"] {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #reserva-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
         /* Estilos para el Modal */
         .modal {
             display: none; /* Ocultar por defecto */
@@ -39,15 +153,73 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Estilos para el footer */
+        footer {
+            background-color: #e67e22;
+            color: #fff;
+            padding: 30px 0;
+            clear: both; /* Limpiar el float del header */
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        footer ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        footer li {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        footer .social-links a {
+            color: #fff;
+            font-size: 24px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
+
+<header>
+    <div class="container">
+        <a href="#" class="logo">La Curva Apartamentos</a>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="{{ route('habitaciones.index') }}">Habitaciones</a></li>
+                <li><a href="#">Servicios</a></li>
+                <li><a href="#">Contacto</a></li>
+                @if (auth()->check())
+                    <li>
+                        <a href="{{ route('perfil.mis-reservas') }}">Mis reservas</a>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">Cerrar sesión</button>
+                        </form>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+</header>
 
 <section class="reserva">
     <div class="container">
         <h2>Datos de la Reserva</h2>
 
         <div class="habitacion-info">
+            <h2>{{ $habitacion->nombre }}</h2>
             <h3>{{ $habitacion->tipo }} - Capacidad: {{ $habitacion->capacidad }}</h3>
             <p>Precio por noche: $<span id="precio-noche">{{ $habitacion->precio_noche }}</span></p>
             <p>Desde: <span id="fecha-entrada-text"></span> Hasta: <span id="fecha-salida-text"></span></p>
@@ -78,15 +250,14 @@
             <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="num_adultos">Número de Adultos:</label>
+            <label for="num_adultos">Número   
+ de Adultos:</label>
             <input type="number" id="num_adultos" name="num_adultos" min="1" value="1" required>
 
             <label for="num_ninos">Número de Niños:</label>
             <input type="number" id="num_ninos" name="num_ninos" min="0" value="0" required>
 
-
             <button type="button" class="btn" id="agregar-servicios">Agregar Servicios Adicionales</button>
-            <button type="submit" class="btn">Confirmar Reserva</button>
             <button type="button" class="btn" id="pagar-btn">Pagar</button>
         </form>
     </div>
@@ -107,6 +278,20 @@
         <button id="confirmar-servicios">Confirmar Selección</button>
     </div>
 </div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2023 La Curva Apartamentos</p>
+        <ul class="social-links">
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>   
+  
+
+        </ul>
+    </div>
+</footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
@@ -175,27 +360,25 @@
         const dni = document.getElementById('dni').value; // Obtener el valor del DNI
 
 
-
-
         const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/habitaciones/disponibilidad?habitacion_id=${habitacionId}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}`);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            if (response.disponible) {
-                // La habitación está disponible, puedes redirigir o continuar con el proceso de pago
-                window.location.href = `{{ route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
+        xhr.open('GET', `/habitaciones/disponibilidad?habitacion_id=${habitacionId}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}`);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.disponible) {
+                    // La habitación está disponible, puedes redirigir o continuar con el proceso de pago
+                    window.location.href = `{{ route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
+                } else {
+                    // Mostrar mensaje de error en la misma página
+                    alert("La habitación no está disponible en las fechas seleccionadas.");
+                }
             } else {
-                // Mostrar mensaje de error en la misma página
-                alert("La habitación no está disponible en las fechas seleccionadas.");
+                console.error("Error al verificar la disponibilidad.");
+                alert("Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.");
             }
-        } else {
-            console.error("Error al verificar la disponibilidad.");
-            alert("Hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.");
-        }
-    };
-    xhr.send();
-        
+        };
+        xhr.send();
+
 
 
         // Log de las fechas y total antes de redirigir
@@ -210,9 +393,6 @@
             return; // No redirigir si las fechas no son válidas
         }
 
-        // Redirigir a la página de pago con los datos necesarios
-        // Asegúrate de que la ruta `pagos.create` esté definida correctamente en tu aplicación
-        //window.location.href = `{{route('pagos.create') }}?habitacion_id=${habitacionId}&total=${total}&nombre=${nombre}&email=${email}&fecha_entrada=${fechaEntrada}&fecha_salida=${fechaSalida}&num_adultos=${numAdultos}&num_ninos=${numNinos}&dni=${dni}`; 
     });
 
     function calcularTotal() {
@@ -239,3 +419,4 @@
 
 </body>
 </html>
+
