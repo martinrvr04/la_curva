@@ -16,8 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'csrf' => App\Http\Middleware\VerifyCsrfToken::class, 
         ]);
 
+        // Registra el middleware CSRF globalmente para el grupo web
+        $middleware->web(append: 'csrf'); 
+
         $middleware->validateCsrfTokens(except: [
-          
+            // Agrega aquí otras rutas que deban ser excluidas de la protección CSRF, 
+            // pero NO incluyas la ruta 'login'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
