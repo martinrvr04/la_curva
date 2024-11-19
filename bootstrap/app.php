@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
+            'login'
             // Agrega aquí otras rutas que deban ser excluidas de la protección CSRF, 
             // pero NO incluyas la ruta 'login'
         ]);
