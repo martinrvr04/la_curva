@@ -21,10 +21,6 @@ use Illuminate\Support\Facades\Auth; // Asegúrate de que esta línea esté pres
 
 
 
-
-
-
-
 class LoginController extends Controller
 {
     

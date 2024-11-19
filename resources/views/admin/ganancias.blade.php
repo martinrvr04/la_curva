@@ -201,7 +201,7 @@
 
       // --- Gráfico de tendencia de reservas ---
       const tendenciaReservas = {!! json_encode($tendenciaReservas) !!};
-      const labelsTendencia = tendenciaReservas.map(t => `${t.anio}-${t.mes}`);      const dataTendencia = tendenciaReservas.map(t => t.cantidad);
+      const labelsTendencia = tendenciaReservas.map(t => `${t.anio}-${t.mes}`);       const dataTendencia = tendenciaReservas.map(t => t.cantidad);
 
       const ctxTendencia = document.getElementById('tendenciaReservasChart').getContext('2d');
       new Chart(

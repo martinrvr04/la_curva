@@ -180,9 +180,4 @@ Log::info('Ganancias del año:', ['ganancias' => $gananciasAnio]);
         }
     }
 
-
-
-
-
-    
 }
