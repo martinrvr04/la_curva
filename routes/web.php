@@ -34,9 +34,21 @@ use App\Models\Reserva; // Importa el modelo User
 use App\Http\Controllers\Admin\ServicioController; // Nuevo nombre del controlador
 use App\Models\Servicio; // Importa el modelo User
 use App\Http\Controllers\Admin\ReporteController; // Nuevo nombre del controlador
+use App\Http\Controllers\RecogidaAeropuertoController;
+use App\Http\Controllers\PagoExitoController;
 
 
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+
+// En routes/web.php
+Route::get('/pagos/exito', [PagoExitoController::class, 'index'])->name('pagos.exito');
+Route::get('/reservas/confirmacion', [ReservaConfirmacionController::class, 'confirmar'])->name('reservas.confirmacion');
+Route::get('/reservas/confirmacion', [ReservaConfirmacionController::class, 'confirmar'])->name('reservas.confirmacion'); 
+
+
+Route::get('/recogida-aeropuerto/cancelar', [RecogidaAeropuertoController::class, 'cancelar'])->name('recogida.cancelar');
+Route::get('/recogida-aeropuerto', [RecogidaAeropuertoController::class, 'index'])->name('recogida.aeropuerto');
+Route::post('/recogida-aeropuerto/solicitar', [RecogidaAeropuertoController::class, 'solicitar'])->name('recogida.solicitar');
+Route::get('/recogida-aeropuerto/procesar-pago', [RecogidaAeropuertoController::class, 'procesarPago'])->name('recogida.procesarPago');Route::middleware(['auth'])->prefix('admin')->group(function () {
     // ... otras rutas del panel ...
 
     // Rutas para reportes y estadísticas

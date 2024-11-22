@@ -295,9 +295,7 @@
           <i class="fas fa-plane-arrival"></i> 
           <h3>Recogida en el aeropuerto</h3> 
           <p>¿Necesitas que te recojamos en el aeropuerto? ¡No hay problema! Ofrecemos servicio de transporte para que tu llegada sea más cómoda.</p> 
-          <a href="#" class="btn">Más información</a> 
-      </div>
-    </div>
+          <a href="{{ route('recogida.aeropuerto') }}" class="btn">Más información</a>    </div>
   </section>
 
   <div class="separador"></div>
