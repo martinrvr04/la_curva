@@ -15,7 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'login'
             // Agrega aquí otras rutas que deban ser excluidas de la protección CSRF, 
             // pero NO incluyas la ruta 'login'
-        ]);
+            ]);
+
+            
+
+        // Agrega el middleware Admin aquí:
+       
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

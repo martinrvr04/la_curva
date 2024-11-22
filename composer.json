@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-snappy": "^1.0",
         "laravel/framework": "^11.9",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
+        "maatwebsite/excel": "^1.1",
         "paypal/rest-api-sdk-php": "^1.6",
         "spatie/laravel-short-schedule": "^1.6",
         "srmklive/paypal": "^3.0"
@@ -30,8 +32,14 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+
+             },
+             "files": [
+        "app/helpers.php" 
+             ]
     },
+
+    
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

@@ -292,11 +292,10 @@
           <a href="#" class="btn">Ver habitaciones</a>
         </div>
         <div class="info-item">
-          <i class="fas fa-concierge-bell"></i>
-          <h3>Atención personalizada</h3>
-          <p>Nuestro equipo está a tu disposición para ayudarte en todo lo que necesites durante tu estancia.</p>
-          <a href="#" class="btn">Contáctanos</a>
-        </div>
+          <i class="fas fa-plane-arrival"></i> 
+          <h3>Recogida en el aeropuerto</h3> 
+          <p>¿Necesitas que te recojamos en el aeropuerto? ¡No hay problema! Ofrecemos servicio de transporte para que tu llegada sea más cómoda.</p> 
+          <a href="#" class="btn">Más información</a> 
       </div>
     </div>
   </section>

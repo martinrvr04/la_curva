@@ -212,9 +212,17 @@
           <img src="{{ asset('img/' . $habitacion->imagenes[0]->nombre) }}" alt="Imagen principal">
         </div>
         <div class="imagenes-secundarias">
-          <img src="{{ asset('img/' . $habitacion->imagenes[1]->nombre) }}" alt="Imagen secundaria 1">
-          <img src="{{ asset('img/' . $habitacion->imagenes[2]->nombre) }}" alt="Imagen secundaria 2">
-        </div>
+    @if (isset($habitacion->imagenes[1]))
+        <img src="{{ asset('img/' . $habitacion->imagenes[1]->nombre) }}" alt="Imagen secundaria 1">
+    @else
+        <img src="{{ asset('img/imagen_por_defecto.jpg') }}" alt="Imagen por defecto">
+    @endif
+    @if (isset($habitacion->imagenes[2]))
+        <img src="{{ asset('img/' . $habitacion->imagenes[2]->nombre) }}" alt="Imagen secundaria 2">
+    @else
+        <img src="{{ asset('img/imagen_por_defecto.jpg') }}" alt="Imagen por defecto">
+    @endif
+</div>
         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalImagenes">Mostrar imágenes</a>
         <div class="imagenes-restantes">
           @foreach ($habitacion->imagenes->skip(3) as $imagen)

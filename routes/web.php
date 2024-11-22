@@ -23,6 +23,243 @@ use App\Http\Controller\BuscadorHabitacionesController;
 use App\Http\Controllers\ReseñaController;
 use App\Http\Controllers\HabitacionDashboardController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\Admin\AdminDashboardController; // Nuevo nombre del controlador
+use App\Http\Controllers\Admin\UserController; // Nuevo nombre del controlador
+use Illuminate\Http\Request; // Importa la clase Request correcta
+use App\Models\User; // Importa el modelo User
+use App\Http\Controllers\Admin\AdminHabitacionController; // Nuevo nombre del controlador
+use App\Models\Habitacion; // Importa el modelo Habitacion
+use App\Http\Controllers\Admin\AdminReservaController; // Nuevo nombre del controlador
+use App\Models\Reserva; // Importa el modelo User
+use App\Http\Controllers\Admin\ServicioController; // Nuevo nombre del controlador
+use App\Models\Servicio; // Importa el modelo User
+use App\Http\Controllers\Admin\ReporteController; // Nuevo nombre del controlador
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // ... otras rutas del panel ...
+
+    // Rutas para reportes y estadísticas
+    Route::get('/reportes', function (Request $request) {
+        if (isAdmin()) {
+            return (new ReporteController)->index($request); // Crea el controlador ReporteController
+        }
+        return redirect('/');
+    })->name('admin.reportes.index'); 
+
+
+ // Rutas para exportar reportes
+ Route::get('/reportes/exportar-pdf', function (Request $request) {
+    if (isAdmin()) {
+        return (new ReporteController)->exportarPDF($request);
+    }
+    return redirect('/');
+})->name('admin.reportes.exportarPDF');
+
+Route::get('/reportes/exportar-excel', function (Request $request) {
+    if (isAdmin()) {
+        return (new ReporteController)->exportarExcel($request);
+    }
+    return redirect('/');
+})->name('admin.reportes.exportarExcel');
+});
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // ... otras rutas del panel ...
+
+    // Rutas para la gestión de servicios adicionales
+    Route::get('/servicios', function (Request $request) {
+        if (isAdmin()) {
+            return (new ServicioController)->index($request);
+        }
+        return redirect('/');
+    })->name('admin.servicios.index');
+
+    Route::get('/servicios/crear', function (Request $request) {
+        if (isAdmin()) {
+            return (new ServicioController)->create($request);
+        }
+        return redirect('/');
+    })->name('admin.servicios.create');
+
+    Route::post('/servicios', function (Request $request) {
+        if (isAdmin()) {
+            return (new ServicioController)->store($request);
+        }
+        return redirect('/');
+    })->name('admin.servicios.store');
+
+    Route::get('/servicios/{servicio}/editar', function (Servicio $servicio) { 
+        if (isAdmin()) {
+            return (new ServicioController)->edit($servicio); 
+        }
+        return redirect('/');
+    })->name('admin.servicios.edit');
+
+    Route::put('/servicios/{servicio}', function (Request $request, Servicio $servicio) { // Asegúrate de importar el modelo Servicio
+        if (isAdmin()) {
+            return (new ServicioController)->update($request, $servicio);
+        }
+        return redirect('/');
+    })->name('admin.servicios.update');
+
+    Route::delete('/servicios/{servicio}', function (Servicio $servicio) { 
+        if (isAdmin()) {
+            return (new ServicioController)->destroy($servicio); 
+        }
+        return redirect('/');
+    })->name('admin.servicios.destroy');
+});
+
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // ... otras rutas ...
+
+    Route::get('/reservas', [AdminReservaController::class, 'index'])->name('admin.reservas.index');
+
+    Route::get('/reservas/crear', [AdminReservaController::class, 'create'])->name('admin.reservas.create');
+
+    Route::post('/reservas', [AdminReservaController::class, 'store'])->name('admin.reservas.store');
+
+    Route::get('/reservas/{reserva}/editar', [AdminReservaController::class, 'edit'])->name('admin.reservas.edit');
+
+    Route::put('/reservas/{reserva}', [AdminReservaController::class, 'update'])->name('admin.reservas.update');
+
+    Route::delete('/reservas/{reserva}', [AdminReservaController::class, 'destroy'])->name('admin.reservas.destroy'); 
+});
+
+
+
+
+
+
+
+
+
+
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // ... otras rutas del panel ...
+
+    // Rutas para la gestión de habitaciones
+    Route::get('/habitaciones', function (Request $request) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->index($request);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.index');
+
+    Route::get('/habitaciones/crear', function (Request $request) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->create($request);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.create');
+
+    Route::post('/habitaciones', function (Request $request) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->store($request);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.store');
+
+    Route::get('/habitaciones/{habitacion}/editar', function (Request $request, Habitacion $habitacion) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->edit($habitacion); // Pasa solo $habitacion
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.edit');
+
+    Route::put('/habitaciones/{habitacion}', function (Request $request, Habitacion $habitacion) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->update($request, $habitacion);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.update');
+
+    Route::delete('/habitaciones/{habitacion}', function (Request $request, Habitacion $habitacion) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->destroy($request, $habitacion);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.destroy');
+
+    Route::delete('/habitaciones/{habitacion}', function (Request $request, Habitacion $habitacion) {
+        if (isAdmin()) {
+            return (new AdminHabitacionController)->destroy($habitacion); // Pasa solo $habitacion
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.habitaciones.destroy');
+});
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () { 
+    // ... otras rutas del panel ...
+
+    // Rutas para la gestión de usuarios
+    Route::get('/usuarios', function (Request $request) {
+        if (isAdmin()) {
+            return (new UserController)->index($request);
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.usuarios.index');
+
+    Route::get('/usuarios/crear', function (Request $request) {
+        if (isAdmin()) {
+            return (new UserController)->create($request); 
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.usuarios.create');
+
+    Route::post('/usuarios', function (Request $request) {
+        if (isAdmin()) {
+            return (new UserController)->store($request); 
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.usuarios.store');
+
+    Route::get('/usuarios/{usuario}/editar', function (Request $request, User $usuario) {
+    // ...
+    return (new UserController)->edit($usuario); // Pasa solo $usuario
+    // ...
+})->name('admin.usuarios.edit');
+
+Route::delete('/usuarios/{usuario}', function (Request $request, User $usuario) {
+    if (isAdmin()) {
+        return (new UserController)->destroy($usuario); // Pasa solo $usuario
+    } else {
+        return redirect('/');
+    }
+})->name('admin.usuarios.destroy');
+
+
+
+    Route::put('/usuarios/{usuario}', function (Request $request, User $usuario) { 
+        if (isAdmin()) {
+            return (new UserController)->update($request, $usuario); // Pasa $request y $usuario
+        } else {
+            return redirect('/');
+        }
+    })->name('admin.usuarios.update');
+   
+});
+
+
+
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth'); 
 
 
 Route::get('/habitacion/{id}/reseñas', [HabitacionController::class, 'obtenerReseñas']);
